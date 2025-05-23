@@ -3,7 +3,8 @@ import os
 import requests
 from pyrogram import filters
 
-from RAUSHAN import app
+
+from RAUSHAN import dev as app
 from config import LOGGER_ID
 
 
