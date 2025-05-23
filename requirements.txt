@@ -8,3 +8,4 @@ tgcrypto==1.2.2
 asyncio
 python-dotenv
 instaloader
+pip install python-telegram-bot googletrans==4.0.0-rc1
