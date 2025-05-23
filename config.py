@@ -12,7 +12,7 @@ MONGO_URL = getenv("MONGO_URL","mongodb+srv://rikenag263:W8sox45KuiGeTAWf@cluste
 SUPPORT_GRP = getenv("SUPPORT_GRP", "Purvi_UPdates")
 UPDATE_CHNL = getenv("UPDATE_CHNL", "PURVI_SUPPORT")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "ll_ALPHA_BABY_lll")
-LOGGER_ID = int(getenv("LOGGER_ID", None))
+LOGGER_ID = int(getenv("LOGGER_ID","-1002376310673"))
 # Random Start Images
 IMG = [
     "https://telegra.ph/file/00eb565274ccbffcf149d.jpg",
