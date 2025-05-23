@@ -9,9 +9,9 @@ API_HASH = getenv("API_HASH", "487bf4aaba77083282241c0498cdde91")
 BOT_TOKEN = getenv("BOT_TOKEN","7663873696:AAEmhH3Zna5fTU7wsEWwk86X_FVo6Gx6QHk")
 OWNER_ID = int(getenv("OWNER_ID", "7613349267"))
 MONGO_URL = getenv("MONGO_URL","mongodb+srv://teamdaxx123:teamdaxx123@cluster0.ysbpgcp.mongodb.net/?retryWrites=true&w=majority")
-SUPPORT_GRP = getenv("SUPPORT_GRP", "Purvi_UPdates")
-UPDATE_CHNL = getenv("UPDATE_CHNL", "PURVI_SUPPORT")
-OWNER_USERNAME = getenv("OWNER_USERNAME", "ll_ALPHA_BABY_lll")
+SUPPORT_GRP = getenv("SUPPORT_GRP", "none")
+UPDATE_CHNL = getenv("UPDATE_CHNL", "none")
+OWNER_USERNAME = getenv("OWNER_USERNAME", "none")
 LOGGER_ID = int(getenv("LOGGER_ID","-1002376310673"))
 # Random Start Images
 IMG = [
