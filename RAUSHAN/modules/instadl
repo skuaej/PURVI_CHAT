@@ -5,7 +5,7 @@ import os
 from pyrogram.types import InputMediaPhoto, InputMediaVideo
 import re
 
-from RAUSHAN import app 
+from RAUSHAN import dev as app
 
 L = instaloader.Instaloader()
 
