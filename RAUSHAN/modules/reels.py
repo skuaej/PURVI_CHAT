@@ -4,7 +4,7 @@ import requests
 from pyrogram import filters
 
 from RAUSHAN import app
-from config import LOGGER_GROUP_ID
+from config import LOGGER_ID
 
 
 @app.on_message(filters.command(["ig", "instagram", "reel"]))
