@@ -6,7 +6,7 @@ load_dotenv()
 
 API_ID = int(getenv("API_ID", "23205028"))
 API_HASH = getenv("API_HASH", "487bf4aaba77083282241c0498cdde91")
-BOT_TOKEN = getenv("BOT_TOKEN","7762247683:AAGFSkwkKVKxFlN1IqPJ7SjvHQhfNyEnpBM")
+BOT_TOKEN = getenv("BOT_TOKEN","8090559681:AAHujoiXFV3YgT4BIyDH2ZohQnq1qVhWeUU")
 OWNER_ID = int(getenv("OWNER_ID", "7613349267"))
 MONGO_URL = getenv("MONGO_URL","mongodb+srv://rikenag263:W8sox45KuiGeTAWf@cluster0.twepfwf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 SUPPORT_GRP = getenv("SUPPORT_GRP", "Purvi_UPdates")
