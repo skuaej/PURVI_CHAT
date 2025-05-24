@@ -13,6 +13,7 @@ SUPPORT_GRP = getenv("SUPPORT_GRP", "none")
 UPDATE_CHNL = getenv("UPDATE_CHNL", "none")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "none")
 LOGGER_ID = int(getenv("LOGGER_ID","-1002376310673"))
+BOT_USERNAME = getenv("BOT_USERNAME", "Sonali_hu_bot")
 # Random Start Images
 IMG = [
     "https://telegra.ph/file/00eb565274ccbffcf149d.jpg",
