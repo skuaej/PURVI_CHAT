@@ -6,14 +6,14 @@ load_dotenv()
 
 API_ID = int(getenv("API_ID", "23205028"))
 API_HASH = getenv("API_HASH", "487bf4aaba77083282241c0498cdde91")
-BOT_TOKEN = getenv("BOT_TOKEN","7663873696:AAEmhH3Zna5fTU7wsEWwk86X_FVo6Gx6QHk")
+BOT_TOKEN = getenv("BOT_TOKEN","7547293965:AAH4Ko9fWNruAmQJomns33vPu-H-Mehfmxw")
 OWNER_ID = int(getenv("OWNER_ID", "7613349267"))
 MONGO_URL = getenv("MONGO_URL","mongodb+srv://teamdaxx123:teamdaxx123@cluster0.ysbpgcp.mongodb.net/?retryWrites=true&w=majority")
 SUPPORT_GRP = getenv("SUPPORT_GRP", "none")
 UPDATE_CHNL = getenv("UPDATE_CHNL", "none")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "none")
 LOGGER_ID = int(getenv("LOGGER_ID","-1002376310673"))
-BOT_USERNAME = getenv("BOT_USERNAME", "Sonali_hu_bot")
+BOT_USERNAME = getenv("BOT_USERNAME", "sonalihubot")
 # Random Start Images
 IMG = [
     "https://telegra.ph/file/00eb565274ccbffcf149d.jpg",
