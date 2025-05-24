@@ -8,4 +8,4 @@ tgcrypto==1.2.2
 asyncio
 python-dotenv
 instaloader
-googletrans==4.0.0-rc1
+gpytranslate
