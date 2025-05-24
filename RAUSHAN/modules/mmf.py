@@ -3,7 +3,7 @@ import textwrap
 from PIL import Image, ImageDraw, ImageFont
 from pyrogram import filters
 from pyrogram.types import Message
-from SONALI import app
+from RAUSHAN import dev as app
 
 @app.on_message(filters.command("mmf"))
 async def mmf(_, message: Message):
