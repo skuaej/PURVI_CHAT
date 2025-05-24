@@ -9,3 +9,4 @@ asyncio
 python-dotenv
 pyrogram
 instaloader
+pillow==9.5.0
