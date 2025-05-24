@@ -10,3 +10,4 @@ python-dotenv
 pyrogram
 instaloader
 httpx==0.25.2
+gpytranslate
