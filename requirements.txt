@@ -11,3 +11,4 @@ pyrogram
 instaloader
 httpx==0.25.2
 gpytranslate
+pillow==9.5.0
