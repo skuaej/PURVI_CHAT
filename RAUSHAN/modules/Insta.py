@@ -1,59 +1,79 @@
-import pytube
-import os
-from pytube.exceptions import PytubeError
+import requests
+from bs4 import BeautifulSoup
+import re
 
-def download_youtube_video(video_url):
+def get_terabox_download_link(terabox_url):
+    """
+    Fetches a direct download link for a TeraBox video using a web-based downloader.
+    Args:
+        terabox_url (str): The TeraBox sharing URL (e.g., https://terabox.com/s/...)
+    Returns:
+        str: Direct download link or error message
+    """
     try:
-        # Initialize YouTube object with error handling
-        yt = pytube.YouTube(video_url)
+        # Hypothetical web-based downloader URL (replace with actual service like TeraDownloader.com)
+        downloader_url = "https://teradownloader.com/generate"  # Example endpoint
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+            'Referer': 'https://teradownloader.com/'
+        }
 
-        # Get available video streams (progressive MP4 or adaptive streams)
-        streams = yt.streams.filter(progressive=True, file_extension='mp4').order_by('resolution').desc()
-        if not streams:
-            # Fallback to adaptive streams if no progressive streams found
-            streams = yt.streams.filter(file_extension='mp4').order_by('resolution').desc()
-            if not streams:
-                print("No suitable MP4 streams found. Try another video.")
-                return
+        # Send POST request with TeraBox URL to the downloader service
+        payload = {'url': terabox_url}
+        response = requests.post(downloader_url, headers=headers, data=payload, timeout=10)
 
-        # Display available resolutions
-        print("\nAvailable resolutions:")
-        for i, stream in enumerate(streams, 1):
-            size_mb = stream.filesize / (1024 * 1024) if stream.filesize else "Unknown"
-            print(f"{i}. {stream.resolution or 'Unknown'} ({size_mb:.2f} MB)")
+        # Check if request was successful
+        if response.status_code != 200:
+            return f"Error: Failed to connect to downloader service (Status: {response.status_code})"
 
-        # Prompt user to select a resolution
-        choice = input("\nEnter the number of your preferred resolution (or press Enter for highest): ")
-        if choice.strip() == "":
-            choice = 0
-        else:
-            choice = int(choice) - 1
+        # Parse the response to find the download link
+        soup = BeautifulSoup(response.text, 'html.parser')
+        download_link_tag = soup.find('a', href=re.compile(r'https://.*\.terabox\.com.*download.*'))
 
-        if choice < 0 or choice >= len(streams):
-            print("Invalid choice. Selecting highest resolution by default.")
-            choice = 0
+        if not download_link_tag:
+            return "Error: Could not find download link in response"
 
-        selected_stream = streams[choice]
+        download_link = download_link_tag['href']
+        return download_link
 
-        # Create download directory
-        download_dir = "youtube_downloads"
-        if not os.path.exists(download_dir):
-            os.makedirs(download_dir)
-
-        # Download the video
-        print(f"\nDownloading: {yt.title} ({selected_stream.resolution or 'Unknown'})...")
-        file_path = selected_stream.download(output_path=download_dir)
-        print(f"Video downloaded successfully to {file_path}")
-
-    except PytubeError as pe:
-        print(f"Pytube error: {pe}")
-        print("This may be due to YouTube API changes. Try updating pytube: pip install --upgrade pytube")
-    except ValueError as ve:
-        print(f"Invalid input: {ve}")
+    except requests.exceptions.RequestException as e:
+        return f"Error: Network issue occurred - {str(e)}"
     except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        print("Ensure the URL is valid and your internet connection is stable.")
+        return f"Error: An unexpected issue occurred - {str(e)}"
 
+def download_file(download_url, output_path):
+    """
+    Downloads the file from the provided URL and saves it to the specified path.
+    Args:
+        download_url (str): Direct download URL
+        output_path (str): Path to save the downloaded file
+    """
+    try:
+        response = requests.get(download_url, stream=True, timeout=10)
+        if response.status_code == 200:
+            with open(output_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+            print(f"File downloaded successfully to {output_path}")
+        else:
+            print(f"Error: Failed to download file (Status: {response.status_code})")
+    except Exception as e:
+        print(f"Error downloading file: {str(e)}")
+
+# Example usage
 if __name__ == "__main__":
-    url = input("Enter YouTube video URL: ")
-    download_youtube_video(url)
+    # Replace with your TeraBox video URL
+    terabox_url = "https://terabox.com/s/1RCBLl4RBXh446ZKoHgHZJt_Q"
+    output_file = "downloaded_video.mp4"
+
+    # Get direct download link
+    download_link = get_terabox_download_link(terabox_url)
+    print(f"Download Link: {download_link}")
+
+    # Download the file if link is valid
+    if download_link.startswith("https://"):
+        download_file(download_link, output_file)
+    else:
+        print(download_link)
