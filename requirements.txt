@@ -13,5 +13,4 @@ gpytranslate
 yt_dlp
 Pytube
 bs4
-telegram
-Update
+
