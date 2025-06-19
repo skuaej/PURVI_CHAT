@@ -1,6 +1,10 @@
+from flask import Flask, request, render_template, jsonify
 import requests
 from bs4 import BeautifulSoup
 import re
+import os
+
+app = Flask(__name__)
 
 def get_terabox_download_link(terabox_url):
     """
@@ -8,7 +12,7 @@ def get_terabox_download_link(terabox_url):
     Args:
         terabox_url (str): The TeraBox sharing URL (e.g., https://terabox.com/s/...)
     Returns:
-        str: Direct download link or error message
+        dict: Contains status and either download link or error message
     """
     try:
         # Hypothetical web-based downloader URL (replace with actual service like TeraDownloader.com)
@@ -25,55 +29,38 @@ def get_terabox_download_link(terabox_url):
 
         # Check if request was successful
         if response.status_code != 200:
-            return f"Error: Failed to connect to downloader service (Status: {response.status_code})"
+            return {"status": "error", "message": f"Failed to connect to downloader service (Status: {response.status_code})"}
 
         # Parse the response to find the download link
         soup = BeautifulSoup(response.text, 'html.parser')
         download_link_tag = soup.find('a', href=re.compile(r'https://.*\.terabox\.com.*download.*'))
 
         if not download_link_tag:
-            return "Error: Could not find download link in response"
+            return {"status": "error", "message": "Could not find download link in response"}
 
         download_link = download_link_tag['href']
-        return download_link
+        return {"status": "success", "download_link": download_link}
 
     except requests.exceptions.RequestException as e:
-        return f"Error: Network issue occurred - {str(e)}"
+        return {"status": "error", "message": f"Network issue occurred - {str(e)}"}
     except Exception as e:
-        return f"Error: An unexpected issue occurred - {str(e)}"
+        return {"status": "error", "message": f"An unexpected issue occurred - {str(e)}"}
 
-def download_file(download_url, output_path):
-    """
-    Downloads the file from the provided URL and saves it to the specified path.
-    Args:
-        download_url (str): Direct download URL
-        output_path (str): Path to save the downloaded file
-    """
-    try:
-        response = requests.get(download_url, stream=True, timeout=10)
-        if response.status_code == 200:
-            with open(output_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
-            print(f"File downloaded successfully to {output_path}")
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        terabox_url = request.form.get('url')
+        if not terabox_url:
+            return render_template('index.html', error="Please provide a TeraBox URL")
+        
+        result = get_terabox_download_link(terabox_url)
+        if result['status'] == 'success':
+            return render_template('index.html', download_link=result['download_link'])
         else:
-            print(f"Error: Failed to download file (Status: {response.status_code})")
-    except Exception as e:
-        print(f"Error downloading file: {str(e)}")
+            return render_template('index.html', error=result['message'])
+    
+    return render_template('index.html')
 
-# Example usage
-if __name__ == "__main__":
-    # Replace with your TeraBox video URL
-    terabox_url = "https://terabox.com/s/1RCBLl4RBXh446ZKoHgHZJt_Q"
-    output_file = "downloaded_video.mp4"
-
-    # Get direct download link
-    download_link = get_terabox_download_link(terabox_url)
-    print(f"Download Link: {download_link}")
-
-    # Download the file if link is valid
-    if download_link.startswith("https://"):
-        download_file(download_link, output_file)
-    else:
-        print(download_link)
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
