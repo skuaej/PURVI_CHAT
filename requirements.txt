@@ -11,3 +11,4 @@ pyrogram
 instaloader
 gpytranslate
 yt_dlp
+pytube
