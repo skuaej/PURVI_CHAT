@@ -9,3 +9,4 @@ asyncio
 python-dotenv
 yt_dlp
 Translator
+gpytranslate
