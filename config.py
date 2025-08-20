@@ -12,7 +12,7 @@ MONGO_URL = getenv("MONGO_URL", None)
 SUPPORT_GRP = getenv("SUPPORT_GRP", "jasminemusicgc")
 UPDATE_CHNL = getenv("UPDATE_CHNL", "jasminemusicgc")
 OWNER_USERNAME = getenv("OWNER_USERNAME", "jasmineop")
-
+BOT_USERNAME = getenv("BOT_USERNAME","HINATAHUBOT")
 # Random Start Images
 IMG = [
     "https://telegra.ph/file/00eb565274ccbffcf149d.jpg",
