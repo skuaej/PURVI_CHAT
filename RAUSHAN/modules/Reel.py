@@ -1,7 +1,7 @@
 import re
 import requests
 from pyrogram import filters
-from RAUSHAN import app
+from RAUSHAN import dev
 
 
 @app.on_message(filters.command(["ig", "instagram", "reel"]))
