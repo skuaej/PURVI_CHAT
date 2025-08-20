@@ -2,7 +2,7 @@ import re
 import requests
 from pyrogram import filters
 
-from RAUSHAN import app
+
 from config import LOGGER_ID
 
 
