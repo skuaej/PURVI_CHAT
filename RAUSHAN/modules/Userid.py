@@ -6,7 +6,7 @@
 # © Graybots™. All rights reserved.
 # ---------------------------------------------------------
 
-from Audify import app
+from RAUSHAN import dev as app
 from pyrogram import filters
 from pyrogram.enums import ParseMode
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
