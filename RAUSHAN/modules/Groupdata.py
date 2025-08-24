@@ -77,7 +77,7 @@ from asyncio import sleep
 from pyrogram import Client, filters
 from pyrogram import enums, filters
 
-from Audify import app
+from RAUSHAN import dev as app
 
 @app.on_message(~filters.private & filters.command(["groupdata"]), group=2)
 async def instatus(app, message):
