@@ -13,3 +13,4 @@ gpytranslate
 httpx
 aiohttp
 
+gtts
