@@ -14,3 +14,4 @@ httpx
 aiohttp
 aiofiles
 gtts
+imghdr
