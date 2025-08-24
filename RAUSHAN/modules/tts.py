@@ -8,7 +8,7 @@
 
 from pyrogram import filters
 from gtts import gTTS
-from from RAUSHAN import dev as app
+from RAUSHAN import dev as app
 import os
 
 @app.on_message(filters.command('tts'))
