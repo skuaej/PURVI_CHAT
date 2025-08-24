@@ -10,3 +10,8 @@ python-dotenv
 yt_dlp
 Translator
 gpytranslate
+httpx
+uuid
+uuid3
+httpx
+time
