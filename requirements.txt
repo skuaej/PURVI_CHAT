@@ -12,5 +12,5 @@ Translator
 gpytranslate
 httpx
 aiohttp
-
+aiofiles
 gtts
