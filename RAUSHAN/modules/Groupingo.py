@@ -68,7 +68,7 @@ def group_status(client, message):
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from Audify import app
+from RAUSHAN import dev as app
 
 # /groupinfo command for checking details of a group by username
 @app.on_message(filters.command("groupinfo", prefixes="/"))
