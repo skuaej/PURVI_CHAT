@@ -11,5 +11,5 @@ yt_dlp
 Translator
 gpytranslate
 httpx
-
+aiohttp
 
