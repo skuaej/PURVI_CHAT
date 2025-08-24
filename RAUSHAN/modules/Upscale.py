@@ -77,7 +77,7 @@ import os
 import aiohttp
 from pyrogram import filters
 from pyrogram.types import Message
-from Audify import app
+from RAUSHAN import dev as app
 
 API_URL = "https://api.itsrose.life/image/upscale"
 
