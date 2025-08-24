@@ -11,7 +11,7 @@ import aiohttp
 from bs4 import BeautifulSoup
 from pyrogram import filters
 from pyrogram.types import Message
-from Audify import app
+from RAUSHAN import dev as app
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
