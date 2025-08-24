@@ -14,4 +14,4 @@ httpx
 aiohttp
 aiofiles
 gtts
-
+telethon
