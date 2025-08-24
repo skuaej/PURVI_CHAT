@@ -12,7 +12,7 @@ from pyrogram import *
 from pyrogram.types import *
 
 # Buttons: Add bot and Close
-Audify = InlineKeyboardMarkup([
+RAUSHAN = InlineKeyboardMarkup([
     [InlineKeyboardButton("➕ Add Here", url=f"https://t.me/{BOT_USERNAME}?startgroup=true")],
     [InlineKeyboardButton("❌ Close", callback_data="close")]
 ])
