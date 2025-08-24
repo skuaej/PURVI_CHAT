@@ -1,100 +1,31 @@
-# ---------------------------------------------------------
-# Audify Bot - All rights reserved
-# ---------------------------------------------------------
-# This code is part of the Audify Bot project.
-# Unauthorized copying, distribution, or use is prohibited.
-# © Graybots™. All rights reserved.
-# ---------------------------------------------------------
+from pyrogram import filters
+import aiohttp
+from RAUSHAN import dev as app
+from config import config 
 
-import os
-import time
-import httpx
-from uuid import uuid4
-from typing import BinaryIO, Dict, List
-from pyrogram import Client, filters
-from pyrogram.enums import MessageMediaType
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+async def get_cosplay_data():
+    cosplay_url = "https://sugoi-api.vercel.app/cosplay"
+    async with aiohttp.ClientSession() as session:
+        async with session.get(cosplay_url) as response:
+            if response.status == 200:
+                return await response.json()
+            else:
+                raise Exception("Failed to fetch data from the API.")
 
-from RAUSHAN import dev as app 
 
-SAUCENAO_API_KEY = "27ab8b6f0a9e67ce164e67dcbecc45a362b538ef"
-SAUCENAO_API = "https://saucenao.com/search.php"
-
-class STRINGS:
-    REPLY_TO_MEDIA = "🔍 Please reply to an image or document to reverse search."
-    UNSUPPORTED_MEDIA_TYPE = "⚠️ Unsupported media type. Use a photo, sticker, or file."
-    DOWNLOADING_MEDIA = "⏳ Downloading media..."
-    UPLOADING_TO_API_SERVER = "📡 Uploading to SauceNao..."
-    PARSING_RESULT = "🧠 Parsing results..."
-    EXCEPTION_OCCURRED = "❌ An error occurred:\n\n`{}`"
-    RESULT = """
-🔎 <b>Similarity:</b> <code>{similarity}%</code>
-🖼️ <b>Title:</b> <code>{title}</code>
-🔗 <b>Link:</b> <a href="{url}">Source</a>
-⏱️ <b>Time:</b> <code>{time_taken}</code> sec"""
-    OPEN_PAGE = "🔗 Open Source"
-    CLOSE = "✖ Close"
-
-@app.on_message(filters.command(["reverse", "sauce", "pp"]))
-async def reverse_image_search(app: Client, message: Message):
-    if not message.reply_to_message:
-        return await message.reply(STRINGS.REPLY_TO_MEDIA)
-
-    if message.reply_to_message.media not in (
-        MessageMediaType.PHOTO,
-        MessageMediaType.STICKER,
-        MessageMediaType.DOCUMENT,
-    ):
-        return await message.reply(STRINGS.UNSUPPORTED_MEDIA_TYPE)
-
-    start_time = time.time()
-    status = await message.reply(STRINGS.DOWNLOADING_MEDIA)
-
-    file_path = f"temp_download/{uuid4()}.jpg"
+@app.on_message(filters.command("cosplay", prefixes=config.COMMAND_PREFIXES))
+async def cosplay(client, message):
     try:
-        await message.reply_to_message.download(file_path)
-    except Exception as exc:
-        await status.delete()
-        return await message.reply(STRINGS.EXCEPTION_OCCURRED.format(str(exc)))
+        data = await get_cosplay_data()
+        photo_url = data.get("url")  # Corrected key: "url" instead of "cosplay_url"
+        if photo_url:
+            await message.reply_photo(photo=photo_url)
+        else:
+            await message.reply_text("Could not fetch photo URL.")
+    except Exception as e:
+        await message.reply_text(f"An error occurred: {str(e)}")
 
-    await status.edit(STRINGS.UPLOADING_TO_API_SERVER)
-    try:
-        with open(file_path, "rb") as img:
-            files = {"file": img}
-            data = {"output_type": 2, "api_key": SAUCENAO_API_KEY}
-            async with httpx.AsyncClient(timeout=60) as client:
-                response = await client.post(SAUCENAO_API, data=data, files=files)
-
-        os.remove(file_path)
-        result = response.json()
-    except Exception as exc:
-        await status.delete()
-        return await message.reply(STRINGS.EXCEPTION_OCCURRED.format(str(exc)))
-
-    try:
-        best = result["results"][0]
-        header = best["header"]
-        data = best["data"]
-
-        similarity = header.get("similarity", "N/A")
-        title = data.get("title") or data.get("material") or "Unknown"
-        ext_urls = data.get("ext_urls", ["https://saucenao.com"])[0]
-
-        end_time = time.time()
-        time_taken = "{:.2f}".format(end_time - start_time)
-
-        text = STRINGS.RESULT.format(
-            similarity=similarity,
-            title=title,
-            url=ext_urls,
-            time_taken=time_taken
-        )
-        buttons = [
-            [InlineKeyboardButton(STRINGS.OPEN_PAGE, url=ext_urls)],
-            [InlineKeyboardButton(STRINGS.CLOSE, callback_data="close")]
-        ]
-        await message.reply(text, reply_markup=InlineKeyboardMarkup(buttons), disable_web_page_preview=True)
-        await status.delete()
-    except Exception as exc:
-        await status.delete()
-        return await message.reply(STRINGS.EXCEPTION_OCCURRED.format(str(exc)))
+__module__ = "𝖢𝗈𝗌𝗉𝗅𝖺𝗒"
+__help__ = """✧ /𝖼𝗈𝗌𝗉𝗅𝖺𝗒 : 𝖥𝖾𝗍𝖼𝗁 𝖺 𝖼𝗈𝗌𝗉𝗅𝖺𝗒 𝗉𝗁𝗈𝗍𝗈 𝖿𝗋𝗈𝗆 𝖺𝗇 𝖠𝖯𝖨 𝗌𝗈𝗎𝗋𝖼𝖾.
+ ✧ 𝖠𝖿𝗍𝖾𝗋 𝗉𝗋𝗈𝗏𝗂𝖽𝗂𝗇𝗀 𝖺 𝖽𝗂𝗌𝗍𝗂𝗇𝖼𝗍 𝖼𝗈𝗌𝗉𝗅𝖺𝗒 𝗉𝗁𝗈𝗍𝗈, 𝗒𝗈𝗎 𝖼𝖺𝗇 𝖾𝗌𝗍𝖺𝖻𝗅𝗂𝗌𝗁 𝗂𝗍 𝗍𝗈 𝖺𝗇𝗒 𝗆𝖾𝗌𝗌𝖺𝗀𝖾 𝗂𝗇 𝗍𝗁𝖾 𝖼𝗁𝖺𝗍.
+ """
